@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
 	<title>Найди СТО</title>
-	<script src="jquery-3.6.0.min.js"></script>
-	<script src="script.js"></script>
+	<script type=text/javascript src="{{url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+	<script type=text/javascript src="{{url_for('static', filename='js/script.js') }}"></script>
 	
 	
 	<div class="fixed-container">
@@ -32,10 +32,10 @@
 					<option>Ceed</option>
 					<option>GS300</option>
 				</select><br>
-				<input id="car-year" placeholder="год выпуска" >
-				<select id="car-wheels">
+				<input id="car-generation" placeholder="год выпуска" >
+				<select id="car-drive-unit">
 					<option>-Привод-</option>
-					<option> Передний</option>
+					<option>Передний</option>
 					<option>Задний</option>
 				</select>
 				<select id="car-engine"> <br>
@@ -44,7 +44,7 @@
 					<option>дизель</option>
 					<option>Гибрид</option>
 				</select>
-				<select id="car-engine-value"> <br>
+				<select id="car-engine-capacity"> <br>
 					<option>-Объем двигателя-</option>
 					<option>1.4</option>
 					<option>1.6</option>
@@ -64,6 +64,8 @@
 			Предложения:
 			<textarea></textarea>
 		</div>
-	</div>	
+	</div>
+
+
 </body>
 </html>
