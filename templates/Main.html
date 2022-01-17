@@ -22,30 +22,30 @@
 				Ваши данные:<br>
 				Гребеньков Александр Петрович<br>
 				<select id="car-brend">
-					<option>-Выбрать марку-</option>
-					<option selected>KIA</option>
+					<option value="">-Выбрать марку-</option>
+					<option>KIA</option>
 					<option>Lexus</option>
 				</select><br>
 				<select id="car-model">
-					<option>-Выбрать модель-</option>
-					<option>Rio</option>
-					<option>Ceed</option>
-					<option>GS300</option>
+					<option value="">-Выбрать модель-</option>
+					<option value="Rio">Rio</option>
+					<option value="Ceed">Ceed</option>
+					<option value="GS300">GS300</option>
 				</select><br>
-				<input id="car-generation" placeholder="год выпуска" >
+				<input id="car-year" placeholder="год выпуска" >
 				<select id="car-drive-unit">
 					<option>-Привод-</option>
 					<option>Передний</option>
 					<option>Задний</option>
 				</select>
-				<select id="car-engine"> <br>
-					<option>-Тип двигателя-</option>
+				<select id="car-engine-type"> <br>
+					<option value="">-Тип двигателя-</option>
 					<option>Бензин</option>
-					<option>дизель</option>
+					<option>Дизель</option>
 					<option>Гибрид</option>
 				</select>
 				<select id="car-engine-capacity"> <br>
-					<option>-Объем двигателя-</option>
+					<option value="">-Объем двигателя-</option>
 					<option>1.4</option>
 					<option>1.6</option>
 					<option>1.8</option>
@@ -53,11 +53,11 @@
 					<option>3.0</option>
 				</select>
 				<select id="car-transmission">
-					<option>-Коробка передач-</option>
+					<option value="">-Коробка передач-</option>
 					<option>МКПП</option>
 					<option>АКПП</option>
 				</select>
-				<input type="submit" name="" value="Далее">
+				<button name="send-json" type="button" onclick="sendJSON()" >Отправить JSON</button>
 			</form>
 		</div>
 		<div id="product-container"><br>
