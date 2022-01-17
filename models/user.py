@@ -1,19 +1,35 @@
-from .car import CarModel
-from .database import CarDatabase
+import sqlite3
+
+from config import database_path
+
 
 class UserModel:
 
-    def __init__(self, _id: int, username: str, car_parameters: dict):
+    def __init__(self, _id: int, username: str, car_id: int = None, car_parameters: dict = None):
         self.id = _id
         self.username = username
-        self.car = CarModel(car_parameters)
-        self.car_id = UserModel.find_car_id_by_parameters()
+        self.car_id = car_id
+        self.car_parameters = car_parameters
+
+    def json(self) -> dict:
+        return {"id": self.id, "username": self.username, "car_id": self.car_id}
 
     @classmethod
-    def find_car_id_by_parameters(cls, car_parameters: dict) -> int:
-        result = CarDatabase.get(car_parameters)
-        if result:
-            return result[0][0]
-        else:
-            return None
+    def find_by_name(cls, name):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM users WHERE username = ?"
+        result = cursor.execute(query, (name,))
+        row = result.fetchone()
+        connection.close()
+
+        if row:
+            return cls(*row)
+
+    def insert(self):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = "INSERT INTO users VALUES (NULL, ?, ?)"
 
