@@ -1,0 +1,20 @@
+html,body{
+	margin: 0;
+	padding: 0;
+}
+.fixed-container{
+	width: 450px;
+	margin: 0 auto;
+	position: relative;
+	}
+#title-bar{	
+	color: white;
+	background-color: #56a191;
+	padding: 20px;
+}
+#client-info{
+	font-size: small;
+}
+#product-container{
+	font-size: small;
+}

@@ -3,8 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
 	<title>Найди СТО</title>
+	<script src="jquery-3.6.0.min.js"></script>
+	<script src="script.js"></script>
+	
+	
 	<div class="fixed-container">
 		<div id="title-bar">
 		Найди СТО
@@ -13,15 +17,53 @@
 </head>
 <body>
 	<div class="fixed-container">
-		<div id="client-info">
-			Ваши данные:<br>
-			Гребеньков Александр Петрович
-			Lexus GS300 
+		<form id="client-form">
+			<div id="client-info">
+				Ваши данные:<br>
+				Гребеньков Александр Петрович<br>
+				<select id="car-brend">
+					<option>-Выбрать марку-</option>
+					<option selected>KIA</option>
+					<option>Lexus</option>
+				</select><br>
+				<select id="car-model">
+					<option>-Выбрать модель-</option>
+					<option>Rio</option>
+					<option>Ceed</option>
+					<option>GS300</option>
+				</select><br>
+				<input id="car-year" placeholder="год выпуска" >
+				<select id="car-wheels">
+					<option>-Привод-</option>
+					<option> Передний</option>
+					<option>Задний</option>
+				</select>
+				<select id="car-engine"> <br>
+					<option>-Тип двигателя-</option>
+					<option>Бензин</option>
+					<option>дизель</option>
+					<option>Гибрид</option>
+				</select>
+				<select id="car-engine-value"> <br>
+					<option>-Объем двигателя-</option>
+					<option>1.4</option>
+					<option>1.6</option>
+					<option>1.8</option>
+					<option>2.0</option>
+					<option>3.0</option>
+				</select>
+				<select id="car-transmission">
+					<option>-Коробка передач-</option>
+					<option>МКПП</option>
+					<option>АКПП</option>
+				</select>
+				<input type="submit" name="" value="Далее">
+			</form>
 		</div>
-		<div id="product-container">
+		<div id="product-container"><br>
 			Предложения:
+			<textarea></textarea>
 		</div>
-	</div>
-
+	</div>	
 </body>
 </html>
