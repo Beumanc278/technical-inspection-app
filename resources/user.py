@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 
-from models.database import UserDatabase
+from models.user import UserModel
 
 
 class User(Resource):
@@ -9,7 +9,7 @@ class User(Resource):
     parser.add_argument('car_parameters', type=dict, required=True)
 
     def get(self, username: str):
-        result = UserDatabase.get(username)
+        result = UserModel.get(username)
 
 
     def post(self):

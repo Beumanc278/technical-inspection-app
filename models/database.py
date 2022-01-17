@@ -1,15 +1,8 @@
 import sqlite3
 
-from config import database_path
+from utils import create_filter
 
-def create_filter(parameters: dict) -> str:
-    where_query_part = ''
-    for field, value in parameters.items():
-        if value and not where_query_part:
-            where_query_part += f'{field} = "{value}"'
-        elif value and where_query_part:
-            where_query_part += f' AND {field} = "{value}"'
-    return where_query_part
+database_path = '../database/data.db'
 
 
 class UserDatabase:
@@ -24,18 +17,6 @@ class UserDatabase:
         connection.commit()
         connection.close()
 
-    def get(self):
-        pass
-
-    def post(self):
-        pass
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
-
 
 class CarDatabase:
 
@@ -43,33 +24,35 @@ class CarDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = "CREATE TABLE IF NOT EXISTS cars (id INTEGER PRIMARY KEY, brend text, model text, year text, engine_type text, engine_capacity text, transmission text, drive_unit text)"
+        query = 'CREATE TABLE IF NOT EXISTS cars (id INTEGER PRIMARY KEY, "car-brend" text, "car-model" text, "car-year" text, "car-engine-type" text, "car-engine-capacity" text, "car-transmission" text, "car-drive-unit" text)'
         cursor.execute(query)
 
         connection.commit()
         connection.close()
 
-    def get(self, car_parameters: dict) -> list:
+    def insert_mock_car(self):
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = "SELECT * FROM cars ?"
-        filter = create_filter(car_parameters)
-        result = cursor.execute(query, (filter, ))
+        if not cursor.execute("SELECT * FROM cars WHERE id = 1").fetchone():
+            query = 'INSERT INTO cars VALUES (1, "Lexus", "GS300", "2006", "Бензин", "3.0", "АКПП", "Задний")'
+            cursor.execute(query)
 
+        connection.commit()
         connection.close()
 
-        return result.fetchall()
+    def get_mock_car(self):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
 
-    def post(self):
-        pass
+        parameters = {'car-brend': 'Lexus', 'car-model': None, 'car-year': None, 'car-engine-type': None, 'car-engine-capacity': None, 'car-transmission': None, 'car-drive-unit': None}
+        where_part = f' WHERE {create_filter(parameters)}'
 
-    def put(self):
-        pass
+        query = f"SELECT * FROM cars{where_part}"
+        result = cursor.execute(query)
+        row = result.fetchone()
 
-    def delete(self):
-        pass
-
+        connection.close()
 
 class ServiceDatabase:
 
@@ -77,25 +60,29 @@ class ServiceDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = "CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description text, inspection_name text, inspection_cost, car_id int)"
+        query = 'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, "service-description" text, "service-inspection-name" text, "service-inspection_cost" int, "service-car-id" int)'
         cursor.execute(query)
 
         connection.commit()
         connection.close()
 
-    def get(self):
-        pass
+    def insert_mock_service(self):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
 
-    def post(self):
-        pass
+        query = 'INSERT INTO services VALUES (1, "Пиздатый сервис", "ТО для новичков", "100500", "1")'
+        cursor.execute(query)
 
-    def put(self):
-        pass
+        query = 'INSERT INTO services VALUES (2, "Не самый пиздатый сервис", "ТО для профессионалов", "200000", "1")'
+        cursor.execute(query)
 
-    def delete(self):
-        pass
+        connection.commit()
+        connection.close()
 
 
 UserDatabase().create_table()
 CarDatabase().create_table()
 ServiceDatabase().create_table()
+
+CarDatabase().insert_mock_car()
+ServiceDatabase().insert_mock_service()
