@@ -13,10 +13,8 @@ html,body{
 	padding: 20px;
 }
 #client-info{
-	font-size: xx-small;
-	float: right;
+	font-size: small;
 }
 #product-container{
-	font-size: xx-small;
-	float: left;
+	font-size: small;
 }
