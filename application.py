@@ -13,6 +13,14 @@ api = Api(app)
 def home():
     return render_template('Main.html')
 
+@app.route('/service-station')
+def service_station_page():
+    return render_template('service-station.html')
+
+@app.route('/Login')
+def login_page():
+    return render_template('Login.html')
+
 api.add_resource(Car, '/car')
 api.add_resource(CarList, '/cars')
 api.add_resource(User, '/user')

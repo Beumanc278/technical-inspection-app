@@ -11,10 +11,22 @@ html,body{
 	color: white;
 	background-color: #56a191;
 	padding: 20px;
+	font-size: xx-large;
 }
 #client-info{
-	font-size: small;
+	font-size: large;
+	font: bolder;
+	margin-top: 15px;
+	margin-bottom: 30px;
 }
 #product-container{
 	font-size: small;
+}
+#information{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#pokatak{
+	font-size: xx-small;
+	color: dimgray;
 }

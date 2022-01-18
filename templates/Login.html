@@ -3,8 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+	<script type=text/javascript src="{{url_for('static', filename='js/script.js') }}"></script>
 	<title>Найди СТО</title>
+
 	<div class="fixed-container">
 		<div id="title-bar">
 		Найди СТО
@@ -15,13 +17,25 @@
 	<div class="fixed-container">
 	Выбрать кто Вы:<br>
 	<form>
-		<input type="radio" name="hu">&nbsp;Клиент<br>
-		<input type="radio" name="hu">&nbsp;Сервис<br>
-		Ввести данные:<br>
-		<input placeholder="ФИО"><br>
-		<input type="tel" placeholder="Телефон"><br>
-		<input type="password" maxlength="6" placeholder="Пароль"><br>
-		<input type="submit" name="" value="Далее">
+		<input type="radio" id="client-registration-form" name="hu" onclick="registrationClient()">&nbsp;Клиент<br>
+		<input type="radio" id="service-registration-form" name="hu" onclick="registrationService()">&nbsp;Сервис<br><hr>
+		<div id="client-registration-form-hidden" hidden>
+			Заполните форму:<br>
+			<input placeholder="ФИО"><br>
+			<input type="tel" placeholder="Телефон"><br>
+			<input type="email" placeholder="e-mail"><br>
+			<input type="password" maxlength="6" placeholder="Пароль"><br>
+			<input type="submit" name="" value="Далее">
+		</div>
+		<div id="service-registration-form-hidden" hidden>
+			Заполните форму:<br>
+			<input placeholder="Юр.Название"><br>
+			<input placeholder="Фактический адрес"><br>
+			<input type="tel" placeholder="Телефон"><br>
+			<input type="email" placeholder="e-mail"><br>			
+			<input type="password" maxlength="6" placeholder="Пароль"><br>
+			<input type="submit" name="" value="Далее">
+		</div>
 
 	</form>
 </div>
