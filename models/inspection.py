@@ -28,15 +28,17 @@ class InspectionModel:
 
     @classmethod
     def get_inspections_by_car_parameters(cls, car_parameters: dict):
-        string_interpretation = ','.join(car_parameters.values()[1:])
+        string_interpretation = ','.join([str(element) for element in list(car_parameters.values())[1:]])
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = f'SELECT * FROM inspections WHERE "car-parameters" = {string_interpretation}'
+        query = f'SELECT * FROM inspections WHERE "car-parameters" = "{string_interpretation}"'
+        print(query)
         result = cursor.execute(query)
         inspections = []
         for row in result:
-            inspections.append(cls(*row))
+            print(row)
+            inspections.append(cls(*row).json())
         return inspections
 
     @classmethod
@@ -50,6 +52,7 @@ class InspectionModel:
         result = cursor.execute(query)
         inspections = []
         for row in result:
+            print(row)
             inspections.append(cls(*row).json())
         return inspections
 
@@ -64,6 +67,7 @@ class InspectionListModel:
         result = cursor.execute(query)
         inspections = []
         for row in result:
+            print(row)
             inspections.append(InspectionModel(*row).json())
         connection.close()
         return inspections

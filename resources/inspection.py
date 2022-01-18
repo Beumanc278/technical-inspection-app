@@ -5,18 +5,19 @@ from models.inspection import InspectionListModel, InspectionModel
 
 class Inspection(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('inspection-cost', type=float)
+    parser.add_argument('inspection-cost', type=int)
     parser.add_argument('mileage', type=int)
     parser.add_argument('lifetime', type=int)
     parser.add_argument('service-id', type=int)
-    parser.add_argument('car-parameters', type=str)
+    parser.add_argument('car-parameters', type=dict)
 
     def post(self):
         data = Inspection.parser.parse_args()
         valid_values = [bool(value) for value in data.values()]
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
-        if 'car-parameters' in data.keys():
+        print(data)
+        if 'car-parameters' in data.keys() and data['car-parameters']:
             inspections = InspectionModel.get_inspections_by_car_parameters(data['car-parameters'])
         else:
             inspections = InspectionModel.get_inspections_by_parameters(data)

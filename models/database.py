@@ -126,7 +126,7 @@ class InspectionDatabase:
         with open('../tests/test_inspection_data.txt', encoding='utf-8') as file:
             for line in file.readlines():
                 result = line.replace('\n', '')
-                car_parameters = result[result.find('"'):result.rfind('"') + 1]
+                car_parameters = result[result.find('"'):result.rfind('"') + 1].replace('"', '')
                 other_line = result[:result.find('"')]
                 result = (*other_line.split(',')[:-1], car_parameters)
                 inspections_to_input.append(result)
