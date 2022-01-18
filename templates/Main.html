@@ -19,8 +19,10 @@
 	<div class="fixed-container">
 		<form id="client-form">
 			<div id="client-info">
-				Ваши данные:<br>
-				Гребеньков Александр Петрович<br>
+				Ваши данные<br>
+				<div id="pokatak">подгружать из формы рег-ции<br> 
+                    (ФИО. контактные данные)</div>
+
 				<select id="car-brend">
 					<option value="">-Выбрать марку-</option>
 					<option>KIA</option>
@@ -58,6 +60,7 @@
 					<option>АКПП</option>
 				</select>
 				<button name="send-json" type="button" onclick="sendJSON()" >Отправить JSON</button>
+				<button name="get-json" type="button" onclick="getJSON()" >получить JSON</button>
 			</form>
 		</div>
 		<div id="product-container"><br>

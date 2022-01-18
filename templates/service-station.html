@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+        <title>Профиль сервиса</title>
+        <div class="fixed-container">
+            <div id="title-bar">
+            Профиль сервиса
+        </div>
+        </div>    
+    </head>
+    <body>
+        <div class="fixed-container">
+            <div id="client-info">Название сервиса:
+                <div id="pokatak">подгружать из формы рег-ции<br> 
+                    (Юр.Название,при рег-ции задавать ID)</div></div>        
+            <div id="information">Контактная информация:
+                <div id="pokatak">подгружать из формы рег-ции</div>
+            </div>
+            <div id="information">Прайсы сервиса:
+                <div id="pokatak">подгружать название из загруженного файла</div>
+            </div>
+                <form form enctype="multipart/form-data" method="post"><br>
+                    <div>Обновить прайсы</div>
+                    <input type="file">                
+                </form>
+            
+
+
+
+        </div>
+
+
+
+    </body>
+
+
+</html>
