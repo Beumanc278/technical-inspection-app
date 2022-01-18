@@ -11,12 +11,28 @@ class UserDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username text, car_id int)"
+        query = 'CREATE TABLE IF NOT EXISTS users ("user-id" INTEGER PRIMARY KEY, username text, "car-id" int)'
         cursor.execute(query)
 
         connection.commit()
         connection.close()
 
+    def insert_mock_users(self):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        users_to_input = []
+        with open('../tests/test_user_data.txt', encoding='utf-8') as file:
+            for line in file.readlines():
+                result = tuple(line.replace('\n', '').split(','))
+                users_to_input.append(result)
+
+        query = 'INSERT INTO users VALUES (NULL, ?, ?)'
+        for user_data in users_to_input:
+            cursor.execute(query, user_data)
+
+        connection.commit()
+        connection.close()
 
 class CarDatabase:
 
@@ -24,7 +40,7 @@ class CarDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = 'CREATE TABLE IF NOT EXISTS cars (id INTEGER PRIMARY KEY, "car-brend" text, "car-model" text, "car-year" int, "car-engine-type" text, "car-engine-capacity" float, "car-transmission" text, "car-drive-unit" text)'
+        query = 'CREATE TABLE IF NOT EXISTS cars ("car-id" INTEGER PRIMARY KEY, "car-brend" text, "car-model" text, "car-year" int, "car-engine-type" text, "car-engine-capacity" float, "car-transmission" text, "car-drive-unit" text)'
         cursor.execute(query)
 
         connection.commit()
@@ -67,7 +83,7 @@ class ServiceDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = 'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, "service-name" text, "service-description" text)'
+        query = 'CREATE TABLE IF NOT EXISTS services ("service-id" INTEGER PRIMARY KEY, "service-name" text, "service-description" text)'
         cursor.execute(query)
 
         connection.commit()
@@ -96,7 +112,7 @@ class InspectionDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = 'CREATE TABLE IF NOT EXISTS inspections (id INTEGER PRIMARY KEY, "inspection-name" text, "inspection-cost" float, "mileage" float, "lifetime" int, "service-id" int, "car-parameters" text)'
+        query = 'CREATE TABLE IF NOT EXISTS inspections ("inspection-id" INTEGER PRIMARY KEY, "inspection-name" text, "inspection-cost" float, "mileage" float, "lifetime" int, "service-id" int, "car-parameters" text)'
         cursor.execute(query)
 
         connection.commit()
@@ -128,6 +144,7 @@ CarDatabase().create_table()
 ServiceDatabase().create_table()
 InspectionDatabase().create_table()
 
+UserDatabase().insert_mock_users()
 CarDatabase().insert_mock_cars()
 ServiceDatabase().insert_mock_services()
 InspectionDatabase().insert_mock_inspections()
