@@ -1,35 +1,43 @@
 import sqlite3
 
 from config import database_path
+from utils import create_filter
 
 
 class UserModel:
 
-    def __init__(self, _id: int, username: str, car_id: int = None, car_parameters: dict = None):
-        self.id = _id
+    def __init__(self, user_id: int, username: str, car_id: int):
+        self.user_id = user_id
         self.username = username
         self.car_id = car_id
-        self.car_parameters = car_parameters
 
     def json(self) -> dict:
-        return {"id": self.id, "username": self.username, "car_id": self.car_id}
+        return {"user-id": self.user_id, "username": self.username, "car-id": self.car_id}
 
     @classmethod
-    def find_by_name(cls, name):
+    def get_by_parameters(cls, parameters: dict) -> list:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = "SELECT * FROM users WHERE username = ?"
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-        connection.close()
+        where_part = f' WHERE {create_filter(parameters)}'
+        query = f"SELECT * FROM users{where_part}"
+        result = cursor.execute(query)
+        users = []
+        for row in result:
+            users.append(cls(*row).json())
+        return users
 
-        if row:
-            return cls(*row)
 
-    def insert(self):
+class UserListModel:
+
+    @classmethod
+    def get(cls) -> list:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = "INSERT INTO users VALUES (NULL, ?, ?)"
-
+        query = 'SELECT * FROM users'
+        result = cursor.execute(query)
+        users = []
+        for row in result:
+            users.append(UserModel(*row).json())
+        return users

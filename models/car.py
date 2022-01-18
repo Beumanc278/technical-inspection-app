@@ -16,7 +16,7 @@ class CarModel:
         self.drive_unit = drive_unit
 
     def json(self) -> dict:
-        return {"car_parameters": {
+        return {
             'car-id': self.id,
             'car-brend': self.brend,
             'car-model': self.model,
@@ -25,19 +25,51 @@ class CarModel:
             'car-engine-capacity': self.engine_capacity,
             'car-transmission': self.transmission,
             'car-drive-unit': self.drive_unit
-        }}
+                }
 
     @classmethod
-    def find_by_parameters(cls, car_parameters: dict):
+    def get_by_parameters(cls, car_parameters: dict):
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
         where_part = f' WHERE {create_filter(car_parameters)}'
         query = f'SELECT * FROM cars{where_part}'
+        print(query)
         result = cursor.execute(query)
-        row = result.fetchone()
-        print(row)
-        connection.close()
+        cars = []
+        for row in result.fetchall():
+            cars.append(CarModel(*row).json())
+        return cars
 
-        if row:
-            return cls(*row)
+    @classmethod
+    def get_by_car_id(cls, car_id: int):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+        cars = []
+
+        where_part = f' WHERE "car-id" = {car_id}'
+        query = f'SELECT * FROM cars{where_part}'
+        print(query)
+        result = cursor.execute(query)
+        if result:
+            for row in result:
+                cars.append(cls(*row).json())
+        connection.close()
+        return cars
+
+class CarListModel:
+
+    @classmethod
+    def get_all_cars(cls):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM cars'
+        result = cursor.execute(query)
+        cars = []
+        for row in result:
+            print(row)
+            cars.append(CarModel(*row).json())
+        connection.close()
+        return cars
+

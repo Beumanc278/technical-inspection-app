@@ -1,55 +1,57 @@
 import sqlite3
 
 from config import database_path
-from models.car import CarModel
+from models.inspection import InspectionModel
 from utils import create_filter
+
 
 class ServiceModel:
 
-    def __init__(self, _id: int, description: str, inspection_name: str, inspection_cost: int, car_id: int):
+    def __init__(self, _id: int, name: str, description: str):
         self.id = _id
+        self.name = name
         self.description = description
-        self.inspection_name = inspection_name
-        self.inspection_cost = inspection_cost
-        self.car_id = car_id
+        self.inspection_options = self.get_inspections_for_service()
 
     def json(self) -> dict:
-        return {"service_parameters": {
+        return {
             'service-id': self.id,
+            'service-name': self.name,
             'service-description': self.description,
-            'service-inspection-name': self.inspection_name,
-            'service-inspection-cost': self.inspection_cost,
-            'service-car-id': self.car_id
-        }}
+            'service-inspections': self.inspection_options
+                }
 
     @classmethod
-    def find_by_car_id(cls, car_id: int):
+    def get_services_by_parameters(cls, parameters: dict):
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
-        services = []
 
-        where_part = f' WHERE "service-car-id" = {car_id}'
+        where_part = f' WHERE {create_filter(parameters)}'
         query = f'SELECT * FROM services{where_part}'
+        print(query)
         result = cursor.execute(query)
-        if result:
-            for row in result:
-                services.append(cls(*row).json())
+        services = []
+        for row in result:
+            services.append(cls(*row).json())
         connection.close()
         return services
 
+    def get_inspections_for_service(self):
+        parameters = {"service-id": self.id}
+        return InspectionModel.get_inspections_by_parameters(parameters)
+
+class ServiceListModel:
+
     @classmethod
-    def find_by_car_parameters(cls, car_parameters: dict):
+    def get_all_services(cls):
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        car = None
-        where_part = f' WHERE {create_filter(car_parameters)}'
-        query = f'SELECT * FROM cars{where_part}'
+        query = 'SELECT * FROM services'
         result = cursor.execute(query)
-        row = result.fetchone()
-        if row:
-            car = CarModel(*row)
+        services = []
+        for row in result:
+            services.append(ServiceModel(*row).json())
         connection.close()
+        return services
 
-        if car:
-            return cls.find_by_car_id(car.id)
