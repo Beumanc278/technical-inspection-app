@@ -39,8 +39,11 @@ class Car(Resource):
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
         if data['car-id']:
-            CarModel(*data.values()).update_in_database(data)
-            return {"message": "Car was updated successfully"}, 201
+            result, updated_car = CarModel(*data.values()).update_in_database(data)
+            if result:
+                return {"message": "Car was updated successfully.", "car-parameters": updated_car.json()}, 201
+            else:
+                return {"message": f"Car was not updated with given parameters {data}."}, 500
         else:
             result, car_id = CarModel(*data.values()).insert_to_database()
             if result:

@@ -76,21 +76,23 @@ class ServiceModel:
         for parameter, value in received_data.items():
             if value != existing_service[parameter]:
                 parameters_to_change[parameter] = value
-                print(f'parameters_to_change: {parameters_to_change}')
+        print(f'parameters_to_change 1: {parameters_to_change}')
         if not parameters_to_change:
             return False, received_data['service-id']
 
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = f'UPDATE services SET {create_filter(parameters_to_change)} WHERE "service-id" = {received_data["service-id"]}'
+        query = f'UPDATE services SET {create_filter(parameters_to_change, operation="UPDATE")} WHERE "service-id" = {received_data["service-id"]}'
         print(f'Sending query: {query}')
         cursor.execute(query)
-        print(cursor.execute('SELECT * FROM services WHERE "service-id" = 6').fetchall())
+        result = cursor.execute(f'SELECT * FROM services WHERE "service-id" = {received_data["service-id"]}').fetchone()
+        updated_service = ServiceModel(*result)
 
         connection.commit()
         connection.close()
         print('UPDATE query was completed successfully.')
+        return True, updated_service
 
     def delete_service(self):
         if not self.is_service_exists(self.json()):

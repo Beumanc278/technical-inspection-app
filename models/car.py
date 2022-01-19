@@ -95,13 +95,16 @@ class CarModel:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = f'UPDATE cars SET {create_filter(parameters_to_change)} WHERE "car-id" = {received_data["car-id"]}'
+        query = f'UPDATE cars SET {create_filter(parameters_to_change, operation="UPDATE")} WHERE "car-id" = {received_data["car-id"]}'
         print(f'Sending query: {query}')
         cursor.execute(query)
+        result = cursor.execute(f'SELECT * FROM cars WHERE "car-id" = {received_data["car-id"]}').fetchone()
+        updated_car = CarModel(*result)
 
         connection.commit()
         connection.close()
         print('UPDATE query was completed successfully.')
+        return True, updated_car
 
     def delete_car(self):
         if not self.is_car_exists(self.json()):

@@ -32,9 +32,9 @@ class User(Resource):
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
         if data['user-id']:
-            result, user_id = UserModel(*data.values()).update_in_database(data)
+            result, updated_user = UserModel(*data.values()).update_in_database(data)
             if result:
-                return {"message": f"User was updated successfully. The user ID - {user_id}"}, 201
+                return {"message": f"User was updated successfully.", "user-parameters": updated_user.json()}, 201
             else:
                 return {"message": f"User was not updated with given parameters {data}."}, 500
         else:

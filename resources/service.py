@@ -30,8 +30,11 @@ class Service(Resource):
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
         if data['service-id']:
-            ServiceModel(*data.values()).update_in_database(data)
-            return {"message": "Service was updated successfully"}, 201
+            result, updated_service = ServiceModel(*data.values()).update_in_database(data)
+            if result:
+                return {"message": "Service was updated successfully", "service-parameters": updated_service.json()}, 201
+            else:
+                return {"message": f"Service was not updated with given parameters {data}."}, 500
         else:
             result, service_id = ServiceModel(*data.values()).insert_to_database()
             if result:

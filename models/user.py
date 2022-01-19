@@ -64,14 +64,16 @@ class UserModel:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = f'UPDATE users SET {create_filter(parameters_to_change)} WHERE "user-id" = {received_data["user-id"]}'
+        query = f'UPDATE users SET {create_filter(parameters_to_change, operation="UPDATE")} WHERE "user-id" = {received_data["user-id"]}'
         print(f'Sending query: {query}')
         cursor.execute(query)
+        result = cursor.execute(f'SELECT * FROM users WHERE "user-id" = {received_data["user-id"]}').fetchone()
+        updated_user = UserModel(*result)
 
         connection.commit()
         connection.close()
         print('UPDATE query was completed successfully.')
-        return True, received_data['user-id']
+        return True, updated_user
 
     def delete_user(self):
         if not self.is_user_exists(self.json()):
