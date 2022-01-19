@@ -104,7 +104,7 @@ class CarModel:
     def delete_car(self):
         if not self.is_car_exists(self.json()):
             return None
-
+        deleted_car = CarModel(*self.get_by_parameters(self.json())[0].values())
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
@@ -115,7 +115,7 @@ class CarModel:
         connection.commit()
         connection.close()
         print('DELETE query was completed successfully.')
-        return self
+        return deleted_car
 
     def is_car_exists(self, parameters: dict) -> [int, None]:
         cars = self.get_by_parameters(parameters)

@@ -49,7 +49,7 @@ class Car(Resource):
             try:
                 result, car_id = CarModel(*data.values()).insert_to_database()
                 if result:
-                    return {"message": f"Car was inserted successfully. The car ID - {car_id}"}, 201
+                    return {"message": "Car was inserted successfully.", "car-id": car_id}, 201
                 else:
                     return {"message": f"Car with given parameters already exists with the car ID - {car_id}",
                             "car-id": car_id}
@@ -69,7 +69,8 @@ class Car(Resource):
             print(ex)
             return {"message": f"An error occurred deleting the car with ID - {data['car-id']}"}, 500
         if deleted_car:
-            return {"message": f"The car with ID {data['car-id']} was deleted successfully."}, 200
+            return {"message": f"The car with ID {data['car-id']} was deleted successfully.",
+                    "car-parameters": deleted_car.json()}, 204
         else:
             return {"message": f'The car with ID {data["car-id"]} does not exist.'}, 400
 
