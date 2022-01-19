@@ -43,7 +43,7 @@ class User(Resource):
                 return {"message": f"User was inserted successfully.",
                         "user-id": user_id}, 201
             else:
-                return {"message": f"User with given parameters already exists with the car ID - {user_id}",
+                return {"message": f"User with given parameters already exists with the user ID - {user_id}",
                         "user-id": user_id}
 
     def delete(self):

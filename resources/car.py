@@ -39,23 +39,15 @@ class Car(Resource):
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
         if data['car-id']:
-            try:
-                CarModel(*data.values()).update_in_database(data)
-                return {"message": "Car was updated successfully"}, 201
-            except Exception as ex:
-                print(ex)
-                return {"message": f"An error occured updating the car with parameters {data.values()}"}, 500
+            CarModel(*data.values()).update_in_database(data)
+            return {"message": "Car was updated successfully"}, 201
         else:
-            try:
-                result, car_id = CarModel(*data.values()).insert_to_database()
-                if result:
-                    return {"message": "Car was inserted successfully.", "car-id": car_id}, 201
-                else:
-                    return {"message": f"Car with given parameters already exists with the car ID - {car_id}",
-                            "car-id": car_id}
-            except Exception as ex:
-                print(ex)
-                return {"message": f'An error occured inserting the car with parameters {data.values()}'}
+            result, car_id = CarModel(*data.values()).insert_to_database()
+            if result:
+                return {"message": "Car was inserted successfully.", "car-id": car_id}, 201
+            else:
+                return {"message": f"Car with given parameters already exists with the car ID - {car_id}",
+                        "car-id": car_id}
 
     def delete(self):
         data = Car.parser.parse_args()
@@ -63,11 +55,7 @@ class Car(Resource):
         valid_values = [value is not None for value in data.values()]
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
-        try:
-            deleted_car = CarModel(*data.values()).delete_car()
-        except Exception as ex:
-            print(ex)
-            return {"message": f"An error occurred deleting the car with ID - {data['car-id']}"}, 500
+        deleted_car = CarModel(*data.values()).delete_car()
         if deleted_car:
             return {"message": f"The car with ID {data['car-id']} was deleted successfully.",
                     "car-parameters": deleted_car.json()}, 204

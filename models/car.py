@@ -89,6 +89,8 @@ class CarModel:
             if value != existing_car[parameter]:
                 parameters_to_change[parameter] = value
                 print(f'parameters_to_change: {parameters_to_change}')
+        if not parameters_to_change:
+            return False, received_data['car-id']
 
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
