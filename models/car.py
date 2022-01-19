@@ -1,11 +1,14 @@
 import sqlite3
+from typing import Tuple
 
 from config import database_path
 from utils import create_filter
 
 class CarModel:
 
-    def __init__(self, _id: int, brend: str, model: str, year: str, engine_type: str, engine_capacity: str, transmission: str, drive_unit: str):
+    def __init__(self, _id: int = None, brend: str = None,
+                 model: str = None, year: str = None, engine_type: str = None,
+                 engine_capacity: str = None, transmission: str = None, drive_unit: str = None):
         self.id = _id
         self.brend = brend
         self.model = model
@@ -34,7 +37,7 @@ class CarModel:
 
         where_part = f' WHERE {create_filter(car_parameters)}'
         query = f'SELECT * FROM cars{where_part}'
-        print(query)
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         cars = []
         for row in result.fetchall():
@@ -49,13 +52,79 @@ class CarModel:
 
         where_part = f' WHERE "car-id" = {car_id}'
         query = f'SELECT * FROM cars{where_part}'
-        print(query)
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         if result:
             for row in result:
                 cars.append(cls(*row).json())
         connection.close()
         return cars
+
+    def insert_to_database(self) -> Tuple[bool, int]:
+        parameters = self.json()
+        parameters.pop('car-id')
+
+        car_id = self.is_car_exists(parameters)
+        if car_id is not None:
+            return False, car_id
+
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = 'INSERT INTO cars VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)'
+        cursor.execute(query, (tuple(parameters.values())))
+        print(f'Sending query: {query}')
+
+        connection.commit()
+        connection.close()
+        print('INSERT query was completed successfully.')
+
+        new_car_id = self.is_car_exists(parameters)
+        return True, new_car_id
+
+    def update_in_database(self, received_data: dict):
+        parameters_to_change = {}
+        existing_car = CarModel.get_by_car_id(received_data['car-id'])[0]
+        for parameter, value in received_data.items():
+            if value != existing_car[parameter]:
+                parameters_to_change[parameter] = value
+                print(f'parameters_to_change: {parameters_to_change}')
+        if not parameters_to_change:
+            return False, received_data['car-id']
+
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = f'UPDATE cars SET {create_filter(parameters_to_change, operation="UPDATE")} WHERE "car-id" = {received_data["car-id"]}'
+        print(f'Sending query: {query}')
+        cursor.execute(query)
+        result = cursor.execute(f'SELECT * FROM cars WHERE "car-id" = {received_data["car-id"]}').fetchone()
+        updated_car = CarModel(*result)
+
+        connection.commit()
+        connection.close()
+        print('UPDATE query was completed successfully.')
+        return True, updated_car
+
+    def delete_car(self):
+        if not self.is_car_exists(self.json()):
+            return None
+        deleted_car = CarModel(*self.get_by_parameters(self.json())[0].values())
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = f'DELETE FROM cars WHERE "car-id" = {self.id}'
+        cursor.execute(query)
+        print(f'Sending query: {query}')
+
+        connection.commit()
+        connection.close()
+        print('DELETE query was completed successfully.')
+        return deleted_car
+
+    def is_car_exists(self, parameters: dict) -> [int, None]:
+        cars = self.get_by_parameters(parameters)
+        return cars[0]['car-id'] if cars and len(cars) == 1 else None
 
 class CarListModel:
 
@@ -65,10 +134,10 @@ class CarListModel:
         cursor = connection.cursor()
 
         query = 'SELECT * FROM cars'
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         cars = []
         for row in result:
-            print(row)
             cars.append(CarModel(*row).json())
         connection.close()
         return cars
