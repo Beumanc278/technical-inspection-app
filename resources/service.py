@@ -6,9 +6,13 @@ class Service(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('service-id', type=int)
 
+    def get(self):
+        return {"fields-for-request": ServiceModel().json()}
+
     def post(self):
         data = Service.parser.parse_args()
-        valid_values = [bool(value) for value in data.values()]
+        print(f"Received data: {data}")
+        valid_values = [value is not None for value in data.values()]
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
         services = ServiceModel.get_services_by_parameters(data)

@@ -7,11 +7,12 @@ from utils import create_filter
 
 class ServiceModel:
 
-    def __init__(self, _id: int, name: str, description: str):
+    def __init__(self, _id: int = None, name: str = None, description: str = None):
         self.id = _id
         self.name = name
         self.description = description
-        self.inspection_options = self.get_inspections_for_service()
+        if self.id:
+            self.inspection_options = self.get_inspections_for_service()
 
     def json(self) -> dict:
         return {
@@ -19,7 +20,10 @@ class ServiceModel:
             'service-name': self.name,
             'service-description': self.description,
             'service-inspections': self.inspection_options
-                }
+                } if self.id else {
+            'service-id': self.id,
+            'service-name': self.name
+        }
 
     @classmethod
     def get_services_by_parameters(cls, parameters: dict):
@@ -28,7 +32,7 @@ class ServiceModel:
 
         where_part = f' WHERE {create_filter(parameters)}'
         query = f'SELECT * FROM services{where_part}'
-        print(query)
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         services = []
         for row in result:
@@ -48,6 +52,7 @@ class ServiceListModel:
         cursor = connection.cursor()
 
         query = 'SELECT * FROM services'
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         services = []
         for row in result:

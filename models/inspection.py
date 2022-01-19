@@ -6,7 +6,8 @@ from utils import create_filter
 
 class InspectionModel:
 
-    def __init__(self, _id: int, inspection_name: str, inspection_cost: float, mileage: int, lifetime: int, service_id: int, car_parameters: str):
+    def __init__(self, _id: int = None, inspection_name: str = None, inspection_cost: float = None,
+                 mileage: int = None, lifetime: int = None, service_id: int = None, car_parameters: str = None):
         self.id = _id
         self.name = inspection_name
         self.cost = inspection_cost
@@ -33,11 +34,10 @@ class InspectionModel:
         cursor = connection.cursor()
 
         query = f'SELECT * FROM inspections WHERE "car-parameters" = "{string_interpretation}"'
-        print(query)
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         inspections = []
         for row in result:
-            print(row)
             inspections.append(cls(*row).json())
         return inspections
 
@@ -48,11 +48,10 @@ class InspectionModel:
 
         where_part = f' WHERE {create_filter(parameters)}'
         query = f'SELECT * FROM inspections{where_part}'
-        print(query)
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         inspections = []
         for row in result:
-            print(row)
             inspections.append(cls(*row).json())
         return inspections
 
@@ -64,10 +63,10 @@ class InspectionListModel:
         cursor = connection.cursor()
 
         query = 'SELECT * FROM inspections'
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         inspections = []
         for row in result:
-            print(row)
             inspections.append(InspectionModel(*row).json())
         connection.close()
         return inspections

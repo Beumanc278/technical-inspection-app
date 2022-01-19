@@ -17,7 +17,7 @@ def home():
 def service_station_page():
     return render_template('service-station.html')
 
-@app.route('/Login')
+@app.route('/login')
 def login_page():
     return render_template('Login.html')
 

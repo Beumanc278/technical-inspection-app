@@ -6,7 +6,7 @@ from utils import create_filter
 
 class UserModel:
 
-    def __init__(self, user_id: int, username: str, car_id: int):
+    def __init__(self, user_id: int = None, username: str = None, car_id: int = None):
         self.user_id = user_id
         self.username = username
         self.car_id = car_id
@@ -21,6 +21,7 @@ class UserModel:
 
         where_part = f' WHERE {create_filter(parameters)}'
         query = f"SELECT * FROM users{where_part}"
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         users = []
         for row in result:
@@ -36,6 +37,7 @@ class UserListModel:
         cursor = connection.cursor()
 
         query = 'SELECT * FROM users'
+        print(f'Sending query: {query}')
         result = cursor.execute(query)
         users = []
         for row in result:
