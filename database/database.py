@@ -1,8 +1,9 @@
+import os
 import sqlite3
 
 from utils import create_filter
 
-database_path = '../database/data.db'
+database_path = 'data.db'
 
 
 class UserDatabase:
@@ -138,6 +139,9 @@ class InspectionDatabase:
         connection.commit()
         connection.close()
 
+if os.path.exists(database_path):
+    os.remove(database_path)
+    print(f'The existing database was found and deleted.')
 
 UserDatabase().create_table()
 CarDatabase().create_table()
