@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 from flask_restful import Api
+from flask_cors import CORS
 
 from resources.car import Car, CarList
 from resources.inspection import InspectionsList, Inspection
@@ -7,6 +8,7 @@ from resources.service import Service, ServicesList
 from resources.user import User, UsersList
 
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:5000", "http://127.0.0.1:5000"])
 api = Api(app)
 
 @app.route('/')
