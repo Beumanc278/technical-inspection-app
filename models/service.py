@@ -45,7 +45,7 @@ class ServiceModel:
         return services
 
     def get_inspections_for_service(self):
-        parameters = {"service-id": self.id}
+        parameters = {"inspection-service-id": self.id}
         return InspectionModel.get_inspections_by_parameters(parameters)
 
     def insert_to_database(self) -> Tuple[bool, int]:

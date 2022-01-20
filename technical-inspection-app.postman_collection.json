@@ -126,45 +126,6 @@
 			"response": []
 		},
 		{
-			"name": "/inspection",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"service-id\": 2\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/inspection",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"inspection"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "/car - insert new",
 			"event": [
 				{
@@ -235,7 +196,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n            \"car-id\": 12,\r\n            \"car-brend\": \"Hyundai\",\r\n            \"car-model\": \"Solaris\",\r\n            \"car-year\": 2010,\r\n            \"car-engine-type\": \"Бензин\",\r\n            \"car-engine-capacity\": 3.0,\r\n            \"car-transmission\": \"АКПП\",\r\n            \"car-drive-unit\": \"Задний\"\r\n        }",
+					"raw": "{\r\n            \"car-id\": 10,\r\n            \"car-brend\": \"Hyundai\",\r\n            \"car-model\": \"Solaris\",\r\n            \"car-year\": 2010,\r\n            \"car-engine-type\": \"Бензин\",\r\n            \"car-engine-capacity\": 3.0,\r\n            \"car-transmission\": \"АКПП\",\r\n            \"car-drive-unit\": \"Задний\"\r\n        }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -274,7 +235,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"car-id\": 12\r\n}",
+					"raw": "{\r\n    \"car-id\": 10\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -313,7 +274,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"car-id\": 12\r\n}",
+					"raw": "{\r\n    \"car-id\": 10\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -659,6 +620,172 @@
 					],
 					"path": [
 						"service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/inspection - insert new",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"inspection-id\": null,\r\n        \"inspection-name\": \"New inspection name\",\r\n        \"inspection-cost\": 9999,\r\n        \"inspection-mileage\": 100000,\r\n        \"inspection-lifetime\": 10,\r\n        \"inspection-service-id\": 4,\r\n        \"inspection-car-parameters\": {\r\n            \"car-id\": 9,\r\n            \"car-brend\": \"ВАЗ\",\r\n            \"car-model\": \"2106\",\r\n            \"car-year\": 1998,\r\n            \"car-engine-type\": \"Бензин\",\r\n            \"car-engine-capacity\": 1.6,\r\n            \"car-transmission\": \"МКПП\",\r\n            \"car-drive-unit\": \"Задний\"\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/inspection",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inspection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/inspection - update existed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"New inspection name value is set\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData['inspection-parameters']['inspection-name']).to.eql('Updated inspection name');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"New cost value is set\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData['inspection-parameters']['inspection-cost']).to.eql(1234)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"inspection-id\": 34,\r\n        \"inspection-name\": \"Updated inspection name\",\r\n        \"inspection-cost\": 1234,\r\n        \"inspection-mileage\": 100000,\r\n        \"inspection-lifetime\": 10,\r\n        \"inspection-service-id\": 5,\r\n        \"inspection-car-parameters\": {\r\n            \"car-id\": 9,\r\n            \"car-brend\": \"ВАЗ\",\r\n            \"car-model\": \"2106\",\r\n            \"car-year\": 1998,\r\n            \"car-engine-type\": \"Бензин\",\r\n            \"car-engine-capacity\": 1.6,\r\n            \"car-transmission\": \"МКПП\",\r\n            \"car-drive-unit\": \"Задний\"\r\n        }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/inspection",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inspection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/inspection - filter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"inspection-id\": 34\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/inspection",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inspection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/inspection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"inspection-id\": 34\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/inspection",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inspection"
 					]
 				}
 			},
