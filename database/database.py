@@ -113,7 +113,7 @@ class InspectionDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = 'CREATE TABLE IF NOT EXISTS inspections ("inspection-id" INTEGER PRIMARY KEY, "inspection-name" text, "inspection-cost" float, "mileage" float, "lifetime" int, "service-id" int, "car-parameters" text)'
+        query = 'CREATE TABLE IF NOT EXISTS inspections ("inspection-id" INTEGER PRIMARY KEY, "inspection-name" text, "inspection-cost" float, "inspection-mileage" int, "inspection-lifetime" int, "inspection-service-id" int, "inspection-car-parameters" text)'
         cursor.execute(query)
 
         connection.commit()
