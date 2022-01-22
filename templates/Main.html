@@ -25,9 +25,9 @@
 			<button class="button-style" id="button-add-car" name="add-car" onclick="addCarForm()" type="button">Добавить автомобиль</button>
 		<form id="client-form" hidden>	
 				<div class="headlines">Марка
-					<select class="wh" id="car-brend">
+					<select class="wh" id="car-brend" autocomplete="off">
 						<option value="">-Выбрать марку-</option>
-						<option>KIA</option>
+						<option>Kia</option>
 						<option>Lexus</option>
 					</select></div>
 				
@@ -43,7 +43,7 @@
 				</div>
 				<div class="headlines">Тип привода
 					<select class="wh" id="car-drive-unit">
-						<option>-Привод-</option>
+						<option value="">-Привод-</option>
 						<option>Передний</option>
 						<option>Задний</option>
 				</select></div>
@@ -70,17 +70,17 @@
 					<option>АКПП</option>
 				</select></div>
 				<div id="button-save-car">
-				<button class="button-style" name="send-json" type="button" onclick="sendJSON()" >Сохранить автомобиль</button>
+				<button class="button-style" name="send-json" type="button" onclick="addCarToDatabase()">Сохранить автомобиль</button>
 				</div>
 				<div id="button-get-price">
-				<button class="button-style" name="get-json" type="button" onclick="getJSON()" >Получить предложения</button>
+				<button class="button-style" name="get-json" type="button" onclick="getInspections()" >Получить предложения</button>
 				</div>
 		
 			</form>
 		
 		<div id="product-container"><br>
 			Предложения:
-			<textarea></textarea>
+			<textarea id="inspections" autocomplete="off"></textarea>
 		</div>
 	</div>
 

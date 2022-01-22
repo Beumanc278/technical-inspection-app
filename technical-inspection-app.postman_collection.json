@@ -645,7 +645,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"inspection-id\": null,\r\n        \"inspection-name\": \"New inspection name\",\r\n        \"inspection-cost\": 9999,\r\n        \"inspection-mileage\": 100000,\r\n        \"inspection-lifetime\": 10,\r\n        \"inspection-service-id\": 4,\r\n        \"inspection-car-parameters\": {\r\n            \"car-id\": 9,\r\n            \"car-brend\": \"ВАЗ\",\r\n            \"car-model\": \"2106\",\r\n            \"car-year\": 1998,\r\n            \"car-engine-type\": \"Бензин\",\r\n            \"car-engine-capacity\": 1.6,\r\n            \"car-transmission\": \"МКПП\",\r\n            \"car-drive-unit\": \"Задний\"\r\n        }\r\n}",
+					"raw": "{\r\n        \"inspection-id\": null,\r\n        \"inspection-name\": \"New inspection name\",\r\n        \"inspection-cost\": 9999,\r\n        \"inspection-mileage\": 100000,\r\n        \"inspection-lifetime\": 10,\r\n        \"inspection-service-id\": 4,\r\n        \"inspection-car-parameters\": 9\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -694,7 +694,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"inspection-id\": 34,\r\n        \"inspection-name\": \"Updated inspection name\",\r\n        \"inspection-cost\": 1234,\r\n        \"inspection-mileage\": 100000,\r\n        \"inspection-lifetime\": 10,\r\n        \"inspection-service-id\": 5,\r\n        \"inspection-car-parameters\": {\r\n            \"car-id\": 9,\r\n            \"car-brend\": \"ВАЗ\",\r\n            \"car-model\": \"2106\",\r\n            \"car-year\": 1998,\r\n            \"car-engine-type\": \"Бензин\",\r\n            \"car-engine-capacity\": 1.6,\r\n            \"car-transmission\": \"МКПП\",\r\n            \"car-drive-unit\": \"Задний\"\r\n        }\r\n}",
+					"raw": "{\r\n        \"inspection-id\": 34,\r\n        \"inspection-name\": \"Updated inspection name\",\r\n        \"inspection-cost\": 1234,\r\n        \"inspection-mileage\": 100000,\r\n        \"inspection-lifetime\": 10,\r\n        \"inspection-service-id\": 5,\r\n        \"inspection-car-id\": 9\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

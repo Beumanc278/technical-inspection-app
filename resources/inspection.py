@@ -11,7 +11,7 @@ class Inspection(Resource):
     parser.add_argument('inspection-mileage', type=int)
     parser.add_argument('inspection-lifetime', type=int)
     parser.add_argument('inspection-service-id', type=int)
-    parser.add_argument('inspection-car-parameters', type=dict)
+    parser.add_argument('inspection-car-id', type=int)
 
     def get(self):
         return {"fields-for-request": InspectionModel().json()}
@@ -22,8 +22,8 @@ class Inspection(Resource):
         valid_values = [value is not None for value in data.values()]
         if True not in valid_values:
             return {"message": f"The parameters which have been given are empty - {data}"}, 400
-        if 'inspection-car-parameters' in data.keys() and data['inspection-car-parameters']:
-            inspections = InspectionModel.get_inspections_by_car_parameters(data['inspection-car-parameters'])
+        if 'inspection-car-id' in data.keys() and data['inspection-car-id']:
+            inspections = InspectionModel.get_inspections_by_car_id(data['inspection-car-id'])
         else:
             inspections = InspectionModel.get_inspections_by_parameters(data)
         if inspections:

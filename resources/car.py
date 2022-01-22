@@ -41,16 +41,17 @@ class Car(Resource):
         if data['car-id']:
             result, updated_car = CarModel(*data.values()).update_in_database(data)
             if result:
-                return {"message": "Car was updated successfully.", "car-parameters": updated_car.json()}, 201
+                return {"message": "Car was updated successfully.", "car-parameters": updated_car.json(), "status": 201}, 201
             else:
-                return {"message": f"Car was not updated with given parameters {data}."}, 500
+                return {"message": f"Car was not updated with given parameters {data}.", "status": 500}, 500
         else:
             result, car_id = CarModel(*data.values()).insert_to_database()
             if result:
-                return {"message": "Car was inserted successfully.", "car-id": car_id}, 201
+                return {"message": "Car was inserted successfully.", "car-id": car_id, "status": 201}, 201
             else:
                 return {"message": f"Car with given parameters already exists with the car ID - {car_id}",
-                        "car-id": car_id}
+                        "car-id": car_id,
+                        "status": 400}
 
     def delete(self):
         data = Car.parser.parse_args()

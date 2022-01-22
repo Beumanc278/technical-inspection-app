@@ -113,7 +113,7 @@ class InspectionDatabase:
         connection = sqlite3.connect(database_path)
         cursor = connection.cursor()
 
-        query = 'CREATE TABLE IF NOT EXISTS inspections ("inspection-id" INTEGER PRIMARY KEY, "inspection-name" text, "inspection-cost" float, "inspection-mileage" int, "inspection-lifetime" int, "inspection-service-id" int, "inspection-car-parameters" text)'
+        query = 'CREATE TABLE IF NOT EXISTS inspections ("inspection-id" INTEGER PRIMARY KEY, "inspection-name" text, "inspection-cost" float, "inspection-mileage" int, "inspection-lifetime" int, "inspection-service-id" int, "inspection-car-id" int)'
         cursor.execute(query)
 
         connection.commit()
@@ -127,9 +127,7 @@ class InspectionDatabase:
         with open('../tests/test_inspection_data.txt', encoding='utf-8') as file:
             for line in file.readlines():
                 result = line.replace('\n', '')
-                car_parameters = result[result.find('"'):result.rfind('"') + 1].replace('"', '')
-                other_line = result[:result.find('"')]
-                result = (*other_line.split(',')[:-1], car_parameters)
+                result = result.split(',')
                 inspections_to_input.append(result)
 
         query = 'INSERT INTO inspections VALUES (NULL, ?, ?, ?, ?, ?, ?)'

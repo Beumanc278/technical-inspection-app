@@ -8,17 +8,14 @@ from utils import create_filter
 class InspectionModel:
 
     def __init__(self, _id: int = None, inspection_name: str = None, inspection_cost: float = None,
-                 mileage: int = None, lifetime: int = None, service_id: int = None, car_parameters: str = None):
+                 mileage: int = None, lifetime: int = None, service_id: int = None, car_id: int = None):
         self.id = _id
         self.name = inspection_name
         self.cost = inspection_cost
         self.mileage = mileage
         self.lifetime = lifetime
         self.service_id = service_id
-        if isinstance(car_parameters, dict):
-            self.car_parameters = self.transform_car_parameters_to_string(car_parameters)
-        else:
-            self.car_parameters = car_parameters
+        self.car_id = car_id
 
     def json(self):
         return {
@@ -28,7 +25,7 @@ class InspectionModel:
             'inspection-mileage': self.mileage,
             'inspection-lifetime': self.lifetime,
             'inspection-service-id': self.service_id,
-            'inspection-car-parameters': self.car_parameters
+            'inspection-car-id': self.car_id
         }
 
     @classmethod
@@ -51,6 +48,19 @@ class InspectionModel:
         cursor = connection.cursor()
 
         query = f'SELECT * FROM inspections WHERE "inspection-car-parameters" = "{string_interpretation}"'
+        print(f'Sending query: {query}')
+        result = cursor.execute(query)
+        inspections = []
+        for row in result:
+            inspections.append(cls(*row).json())
+        return inspections
+
+    @classmethod
+    def get_inspections_by_car_id(cls, car_id: int):
+        connection = sqlite3.connect(database_path)
+        cursor = connection.cursor()
+
+        query = f'SELECT * FROM inspections WHERE "inspection-car-id" = {car_id}'
         print(f'Sending query: {query}')
         result = cursor.execute(query)
         inspections = []
@@ -96,7 +106,6 @@ class InspectionModel:
         return True, new_inspection_id
 
     def update_in_database(self, received_data: dict):
-        received_data['inspection-car-parameters'] = self.transform_car_parameters_to_string(received_data['inspection-car-parameters'])
         parameters_to_change = {}
         existing_service = self.get_by_id(received_data['inspection-id'])
         for parameter, value in received_data.items():
@@ -142,17 +151,6 @@ class InspectionModel:
             return existing_inspection['inspection-id']
         return None
 
-    def transform_car_parameters_to_string(self, car_parameters: dict) -> str:
-        output_string = ''
-        if 'car-id' in car_parameters.keys():
-            car_parameters.pop('car-id')
-        for value in car_parameters.values():
-            if not output_string:
-                output_string = value
-            else:
-                output_string += f',{value}'
-        return output_string
-
 class InspectionListModel:
 
     @classmethod
@@ -165,6 +163,7 @@ class InspectionListModel:
         result = cursor.execute(query)
         inspections = []
         for row in result:
+            print(row)
             inspections.append(InspectionModel(*row).json())
         connection.close()
         return inspections
