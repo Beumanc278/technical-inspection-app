@@ -16,53 +16,68 @@
 	</div>
 </head>
 <body>
-	<div class="fixed-container">
-		<form id="client-form">
-			<div id="client-info">
-				Ваши данные<br>
-				<div id="pokatak">подгружать из формы рег-ции<br> 
-                    (ФИО. контактные данные)</div>
-
-				<select id="car-brend">
-					<option value="">-Выбрать марку-</option>
-					<option>KIA</option>
-					<option>Lexus</option>
-				</select><br>
-				<select id="car-model">
-					<option value="">-Выбрать модель-</option>
-					<option value="Rio">Rio</option>
-					<option value="Ceed">Ceed</option>
-					<option value="GS300">GS300</option>
-				</select><br>
-				<input id="car-year" placeholder="год выпуска" >
-				<select id="car-drive-unit">
-					<option>-Привод-</option>
-					<option>Передний</option>
-					<option>Задний</option>
-				</select>
-				<select id="car-engine-type"> <br>
-					<option value="">-Тип двигателя-</option>
-					<option>Бензин</option>
-					<option>Дизель</option>
-					<option>Гибрид</option>
-				</select>
-				<select id="car-engine-capacity"> <br>
-					<option value="">-Объем двигателя-</option>
-					<option>1.4</option>
-					<option>1.6</option>
-					<option>1.8</option>
-					<option>2.0</option>
-					<option>3.0</option>
-				</select>
-				<select id="car-transmission">
+	<div class="fixed-container">		
+		<div class="headlines" id="client-info">
+			Ваши данные<br>
+			<div id="pokatak">подгружать из формы рег-ции<br> 
+				(ФИО. контактные данные, список а/м)</div>	
+			</div>
+			<button class="button-style" id="button-add-car" name="add-car" onclick="addCarForm()" type="button">Добавить автомобиль</button>
+		<form id="client-form" hidden>	
+				<div class="headlines">Марка
+					<select class="wh" id="car-brend">
+						<option value="">-Выбрать марку-</option>
+						<option>KIA</option>
+						<option>Lexus</option>
+					</select></div>
+				
+				<div class="headlines">Модель
+					<select class="wh" id="car-model">
+						<option value="">-Выбрать модель-</option>
+						<option value="Rio">Rio</option>
+						<option value="Ceed">Ceed</option>
+						<option value="GS300">GS300</option>
+					</select></div>
+				<div class="headlines">Год выпуска
+					<input class="wh" id="car-year" placeholder="год выпуска" >
+				</div>
+				<div class="headlines">Тип привода
+					<select class="wh" id="car-drive-unit">
+						<option>-Привод-</option>
+						<option>Передний</option>
+						<option>Задний</option>
+				</select></div>
+				<div class="headlines">Тип двигателя
+					<select  class="wh" id="car-engine-type">
+						<option value="">-Тип двигателя-</option>
+						<option>Бензин</option>
+						<option>Дизель</option>
+						<option>Гибрид</option>
+					</select></div>
+				<div class="headlines">Обьём двигателя
+					<select  class="wh" id="car-engine-capacity">
+						<option value="">-Объём двигателя-</option>
+						<option>1.4</option>
+						<option>1.6</option>
+						<option>1.8</option>
+						<option>2.0</option>
+						<option>3.0</option>
+					</select></div>
+				<div class="headlines">Коробка предач
+				<select  class="wh" id="car-transmission">
 					<option value="">-Коробка передач-</option>
 					<option>МКПП</option>
 					<option>АКПП</option>
-				</select>
-				<button name="send-json" type="button" onclick="sendJSON()" >Отправить JSON</button>
-				<button name="get-json" type="button" onclick="getJSON()" >получить JSON</button>
+				</select></div>
+				<div id="button-save-car">
+				<button class="button-style" name="send-json" type="button" onclick="sendJSON()" >Сохранить автомобиль</button>
+				</div>
+				<div id="button-get-price">
+				<button class="button-style" name="get-json" type="button" onclick="getJSON()" >Получить предложения</button>
+				</div>
+		
 			</form>
-		</div>
+		
 		<div id="product-container"><br>
 			Предложения:
 			<textarea></textarea>

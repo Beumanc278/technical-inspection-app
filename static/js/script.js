@@ -77,6 +77,12 @@ var mapping = {
     '/service': 'services',
     '/inspection': 'inspections'
 }
+function addCarForm()
+{
+    if(document.getElementById("client-form").hidden==true){
+        document.getElementById("client-form").hidden=false;
+    }else document.getElementById("client-form").hidden=true;
+}
 
 
 // function for sending requests
