@@ -15,26 +15,39 @@
 </head>
 <body>
 	<div class="fixed-container">
-	Выбрать кто Вы:<br>
+	
 	<form>
-		<input type="radio" id="client-registration-form" name="hu" onclick="registrationClient()">&nbsp;Клиент<br>
-		<input type="radio" id="service-registration-form" name="hu" onclick="registrationService()">&nbsp;Сервис<br><hr>
-		<div id="client-registration-form-hidden" hidden>
-			Заполните форму:<br>
-			<input placeholder="ФИО"><br>
-			<input type="tel" placeholder="Телефон"><br>
-			<input type="email" placeholder="e-mail"><br>
-			<input type="password" maxlength="6" placeholder="Пароль"><br>
-			<input type="submit" name="" value="Далее">
+		<div id="buttons-start">
+			<div class="wh">
+				<input type="email" placeholder="e-mail"><br>
+				<input type="password" maxlength="6" placeholder="Пароль">
+			</div>
+			<button class="button-style" name="login" type="button">Войти</button><br><br>
+			<button class="button-style" name="registration" type="button" onclick="regForm()">Регистрация</button>
 		</div>
-		<div id="service-registration-form-hidden" hidden>
-			Заполните форму:<br>
-			<input placeholder="Юр.Название"><br>
-			<input placeholder="Фактический адрес"><br>
-			<input type="tel" placeholder="Телефон"><br>
-			<input type="email" placeholder="e-mail"><br>			
-			<input type="password" maxlength="6" placeholder="Пароль"><br>
-			<input type="submit" name="" value="Далее">
+		<div class="form-style">
+			<div id="account-type" hidden>
+				Выбрать кто Вы:<br>
+				<input type="radio" id="client-registration-form" name="hu" onclick="registrationClient()">&nbsp;Клиент<br>
+				<input type="radio" id="service-registration-form" name="hu" onclick="registrationService()">&nbsp;Сервис<br>
+			</div>
+			<div class="wh" id="client-registration-form-hidden" hidden>
+				Заполните форму:<br>
+				<input placeholder="ФИО"><br>
+				<input type="tel" placeholder="Телефон"><br>
+				<input type="email" placeholder="e-mail"><br>
+				<input type="password" maxlength="6" placeholder="Пароль"><br>
+				<input class="button-style" type="submit" name="" value="Далее">
+			</div>
+			<div calss="wh" id="service-registration-form-hidden" hidden>
+				Заполните форму:<br>
+				<input placeholder="Юр.Название"><br>
+				<input placeholder="Фактический адрес"><br>
+				<input type="tel" placeholder="Телефон"><br>
+				<input type="email" placeholder="e-mail"><br>			
+				<input type="password" maxlength="6" placeholder="Пароль"><br>
+				<input class="button-style" type="submit" name="" value="Далее">
+			</div>
 		</div>
 
 	</form>

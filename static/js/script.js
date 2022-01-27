@@ -23,6 +23,10 @@ function addCarForm() {
         document.getElementById("client-form").hidden=false;
     } else document.getElementById("client-form").hidden=true;
 }
+function regForm(){
+    document.getElementById("account-type").hidden = false;
+    document.getElementById("buttons-start").hidden = true;
+}
 
 function addCarToDatabase() {
     var new_car_parameters = getCarValuesFromPage();
