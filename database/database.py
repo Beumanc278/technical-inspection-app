@@ -5,6 +5,8 @@ from utils import create_filter
 
 database_path = 'data.db'
 
+MOCK_DATA_PATH = r"C:\\Users\\beumanc\\PycharmProjects\\technical-inspection-app\\database\\MockData"
+
 
 class UserDatabase:
 
@@ -23,7 +25,7 @@ class UserDatabase:
         cursor = connection.cursor()
 
         users_to_input = []
-        with open('../tests/test_user_data.txt', encoding='utf-8') as file:
+        with open(os.path.join(MOCK_DATA_PATH, 'test_user_data.txt'), encoding='utf-8') as file:
             for line in file.readlines():
                 result = tuple(line.replace('\n', '').split(','))
                 users_to_input.append(result)
@@ -52,7 +54,7 @@ class CarDatabase:
         cursor = connection.cursor()
 
         cars_to_input = []
-        with open(r'../tests/test_car_data.txt', encoding='utf-8') as file:
+        with open(os.path.join(MOCK_DATA_PATH, 'test_car_data.txt'), encoding='utf-8') as file:
             for line in file.readlines():
                 result = tuple(line.replace('\n', '').split(','))
                 cars_to_input.append(result)
@@ -95,7 +97,7 @@ class ServiceDatabase:
         cursor = connection.cursor()
 
         services_to_input = []
-        with open('../tests/test_service_data.txt', encoding='utf-8') as file:
+        with open(os.path.join(MOCK_DATA_PATH, 'test_service_data.txt'), encoding='utf-8') as file:
             for line in file.readlines():
                 result = line.replace('\n', '').replace('"', '').split(',')
                 services_to_input.append(result)
@@ -124,7 +126,7 @@ class InspectionDatabase:
         cursor = connection.cursor()
 
         inspections_to_input = []
-        with open('../tests/test_inspection_data.txt', encoding='utf-8') as file:
+        with open(os.path.join(MOCK_DATA_PATH, 'test_inspection_data.txt'), encoding='utf-8') as file:
             for line in file.readlines():
                 result = line.replace('\n', '')
                 result = result.split(',')
